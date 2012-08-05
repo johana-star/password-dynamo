@@ -1,3 +1,5 @@
+require 'sinatra'
+
 get '/' do
   words, password                                   = [], ''
   min_word_length, max_word_length, words_in_password = 4, 8, 4 + rand(2)
