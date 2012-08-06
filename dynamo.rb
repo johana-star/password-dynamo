@@ -1,3 +1,4 @@
+# Run on Heroku using Ruby 1.9.1
 require 'sinatra'
 
 def load_dictionary(dictionary = "words.txt", max_word_length = 10)
@@ -5,7 +6,7 @@ def load_dictionary(dictionary = "words.txt", max_word_length = 10)
   
   File.open(dictionary) do |file|
     file.each do |line| 
-      words << line.strip.downcase unless line.length > max_word_length
+      words << line.downcase unless line.length > max_word_length
     end
   end
   
@@ -20,10 +21,10 @@ def generate_password
   words_in_password = 3 + rand(2)
 
   (words_in_password - 1).times do
-    password += WORDS.choice + SPACERS.choice
+    password += WORDS.sample + SPACERS.sample
   end
 
-  password += WORDS.choice
+  password += WORDS.sample
 end
 # FIXME Everything above this line can probably be stored in a class.
 
