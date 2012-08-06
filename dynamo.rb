@@ -1,30 +1,31 @@
 require 'sinatra'
 
-def spacer
-  array = Array(0..9) + ['!', '~', '-', '_', ' ', '+', '=', '%', '$', '#', '@']
-  array.shuffle.first.to_s
-end
-
-def generate_password
-  words              = []
-  password           = ''
-  max_word_length    = 10
-  words_in_password  = 3 + rand(2)
-
-  File.open("words.txt") do |file| # FIXME figure out how to load this once.
+def load_dictionary(dictionary = "words.txt", max_word_length = 10)
+  words = []
+  
+  File.open(dictionary) do |file|
     file.each do |line| 
       words << line.strip.downcase unless line.length > max_word_length
     end
   end
+  
+  return words
+end
 
-  words_in_password.times do
-    password += words.shuffle.first + spacer
+SPACERS = Array(0..9).collect {|i| i.to_s} + ['!', '~', '-', '_', ' ', '+', '=', '%', '$', '#', '@']
+WORDS   = load_dictionary
+
+def generate_password
+  password          = ''
+  words_in_password = 3 + rand(2)
+
+  (words_in_password - 1).times do
+    password += WORDS.choice + SPACERS.choice
   end
 
-  password.chop!
-  
-  return password
+  password += WORDS.choice
 end
+# FIXME Everything above this line can probably be stored in a class.
 
 before do
   headers "Content-Type" => "text/html; charset=utf-8"
@@ -36,6 +37,9 @@ get '/' do
   erb :index
 end
 
+get '/*' do
+  redirect to('/')
+end
 __END__
 
 @@ layout
