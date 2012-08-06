@@ -8,15 +8,12 @@ end
 def generate_password
   words              = []
   password           = ''
-  min_word_length    = 4
-  max_word_length    = 8
-  words_in_password  = 4 + rand(2)
+  max_word_length    = 10
+  words_in_password  = 3 + rand(2)
 
   File.open("words.txt") do |file| # FIXME figure out how to load this once.
     file.each do |line| 
-      if line.length <= max_word_length and line.length >= min_word_length
-        words << line.strip.downcase
-      end
+      words << line.strip.downcase unless line.length > max_word_length
     end
   end
 
