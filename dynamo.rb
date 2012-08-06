@@ -10,7 +10,7 @@ def load_dictionary(dictionary = "words.txt", max_word_length = 10)
     end
   end
   
-  return words
+  words
 end
 
 SPACERS = Array(0..9).collect {|i| i.to_s} + ['!', '~', '-', '_', ' ', '+', '=', '%', '$', '#', '@']
@@ -24,7 +24,7 @@ def generate_password
     password += WORDS.sample + SPACERS.sample
   end
 
-  password += WORDS.sample
+  password + WORDS.sample
 end
 # FIXME Everything above this line can probably be stored in a class.
 
