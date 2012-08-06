@@ -25,9 +25,7 @@ def generate_password
     password += words.shuffle.first + spacer
   end
 
-  password.chop!
-  
-  return password
+  password.chop
 end
 
 before do
