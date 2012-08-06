@@ -1,8 +1,9 @@
 require 'sinatra'
 
+SPACERS = Array(0..9).collect {|i| i.to_s} + ['!', '~', '-', '_', ' ', '+', '=', '%', '$', '#', '@']
+
 def spacer
-  array = Array(0..9) + ['!', '~', '-', '_', ' ', '+', '=', '%', '$', '#', '@']
-  array.shuffle.first.to_s
+  SPACERS.choice
 end
 
 def generate_password
