@@ -7,22 +7,25 @@ def spacer
 end
 
 def generate_password
-  words              = []
+  $words             ||= []
   password           = ''
   min_word_length    = 4
   max_word_length    = 8
   words_in_password  = 4 + rand(2)
 
-  File.open("words.txt") do |file| # FIXME figure out how to load this once.
-    file.each do |line| 
-      if line.length <= max_word_length and line.length >= min_word_length
-        words << line.strip.downcase
+  if $words.empty?
+    print "foo"
+    File.open("words.txt") do |file|
+      file.each do |line| 
+        if line.length <= max_word_length and line.length >= min_word_length
+          $words << line.strip.downcase
+        end
       end
     end
   end
 
   words_in_password.times do
-    password += words.shuffle.first + spacer
+    password += $words.choice + spacer
   end
 
   password.chop
