@@ -6,7 +6,7 @@ def load_dictionary(dictionary = "words.txt", max_word_length = 10)
   
   File.open(dictionary) do |file|
     file.each do |line| 
-      words << line.downcase unless line.length > max_word_length
+      words << line.strip.downcase unless line.length > max_word_length
     end
   end
   
