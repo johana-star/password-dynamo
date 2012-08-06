@@ -1,10 +1,18 @@
 require 'sinatra'
 
-get '/' do
-  words, password                                   = [], ''
-  min_word_length, max_word_length, words_in_password = 4, 8, 4 + rand(2)
+def spacer
+  array = Array(0..9) + ['!', '~', '-', '_', ' ', '+', '=', '%', '$', '#', '@']
+  array.shuffle.first.to_s
+end
 
-  File.open("words.txt") do |file|
+def generate_password
+  words              = []
+  password           = ''
+  min_word_length    = 4
+  max_word_length    = 8
+  words_in_password  = 4 + rand(2)
+
+  File.open("words.txt") do |file| # FIXME figure out how to load this once.
     file.each do |line| 
       if line.length <= max_word_length and line.length >= min_word_length
         words << line.strip.downcase
@@ -12,16 +20,39 @@ get '/' do
     end
   end
 
-  def spacer
-    array = Array(0..9) + ['!', '~', '-', '_', ' ', '+', '=', '%', '$', '#', '@']
-    array.shuffle.first.to_s
-  end
-
   words_in_password.times do
     password += words.shuffle.first + spacer
   end
 
   password.chop!
-
-  "#{password}"
+  
+  return password
 end
+
+before do
+  headers "Content-Type" => "text/html; charset=utf-8"
+end
+
+get '/' do
+  @password = generate_password
+
+  erb :index
+end
+
+__END__
+
+@@ layout
+<html>
+  <head>
+    <title><%= @title %></title>
+    <style>
+      body { margin: 40px; font: 40px/48px helvetica;}
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+
+@@ index
+<p><%= @password %></p>
