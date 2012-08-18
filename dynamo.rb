@@ -59,7 +59,7 @@ __END__
       p   {
         padding:        0;
         margin:         0;
-        font-family:    "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-family:    Helvetica, Arial, "Lucida Grande", sans-serif;
       }
 
       a {
