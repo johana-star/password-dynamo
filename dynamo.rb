@@ -2,7 +2,7 @@
 require 'sinatra'
 require 'action_view'
 
-def load_dictionary(dictionary = "words.txt", max_word_length = 20)
+def load_dictionary(dictionary = "words.txt", max_word_length = 10)
   words = []
   
   File.open(dictionary) do |file|
