@@ -2,7 +2,7 @@
 require 'sinatra'
 require 'action_view'
 
-def load_dictionary(dictionary = "words.txt", max_word_length = 10)
+def load_dictionary(dictionary = "words.txt", max_word_length = 20)
   words = []
   
   File.open(dictionary) do |file|
@@ -11,7 +11,7 @@ def load_dictionary(dictionary = "words.txt", max_word_length = 10)
     end
   end
   
-  words
+  words.uniq!
 end
 
 WORDS = load_dictionary
