@@ -1,2 +1,2 @@
-require './dynamo'
+require 'app/dynamo'
 run Sinatra::Application
