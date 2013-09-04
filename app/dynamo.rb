@@ -48,7 +48,7 @@ __END__
        a:visited {
         color:            #339;
       }
-      
+
       hr {
         width:            50%;
         height:           1px;
@@ -99,7 +99,7 @@ __END__
 </html>
 
 @@ index
-<% possible_phrases = @words_count**@words_in_password %>
+<% possible_phrases = @words_count**@password_length_in_words %>
 <p class="five">Your new password is:</p>
 <p class="one"><%= @password %></p>
 <p class="two">There are <%= @words_count %> words in the dictionary.</p>
