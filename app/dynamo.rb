@@ -1,42 +1,20 @@
-# Run on Heroku using Ruby 1.9.1
 require 'sinatra'
+require 'sinatra/reloader'
 require 'action_view'
+require_relative 'password_generator'
 
-def load_dictionary(dictionary = "words.txt", max_word_length = 10)
-  words = []
-  
-  File.open(dictionary) do |file|
-    file.each do |line| 
-      words << line.strip.downcase unless line.length > max_word_length
-    end
-  end
-  
-  words.uniq!
-end
-
-WORDS = load_dictionary
-
-def generate_password
-  password          = ''
-  @words_in_password = 4
-
-  (@words_in_password - 1).times do
-    password += WORDS.sample + ' ' 
-  end
-
-  password + WORDS.sample
-end
-# FIXME Everything above this line can probably be stored in a class.
+include PasswordGenerator
 
 before do
   headers "Content-Type" => "text/html; charset=utf-8"
 end
 
 get '/' do
-  @password       = generate_password
-  @words_count   = WORDS.count
-  @helper         = Object.new.extend(ActionView::Helpers::NumberHelper)
-  @length         = @password.length
+  @password_length_in_words = 4
+  @password    = PasswordGenerator.generate_password(@password_length_in_words)
+  @words_count = PasswordGenerator::count_words
+  @helper      = Object.new.extend(ActionView::Helpers::NumberHelper)
+  @length      = @password.length
 
   erb :index
 end
