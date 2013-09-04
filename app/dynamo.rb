@@ -3,18 +3,17 @@ require 'sinatra/reloader'
 require 'action_view'
 require_relative 'password_generator'
 
-include PasswordGenerator
+GENERATOR = PasswordGenerator.new({ dictionary_path:   "words.txt",
+                                    max_word_length:   10,
+                                    words_in_password: 4 })
+HELPER    = Object.new.extend(ActionView::Helpers::NumberHelper)
 
 before do
   headers "Content-Type" => "text/html; charset=utf-8"
 end
 
 get '/' do
-  @password_length_in_words = 4
-  @password    = PasswordGenerator.generate_password(@password_length_in_words)
-  @words_count = PasswordGenerator::count_words
-  @helper      = Object.new.extend(ActionView::Helpers::NumberHelper)
-  @length      = @password.length
+  @password = GENERATOR.generate_password
 
   erb :index
 end
@@ -99,11 +98,11 @@ __END__
 </html>
 
 @@ index
-<% possible_phrases = @words_count**@password_length_in_words %>
+<% possible_phrases = GENERATOR.count_words**GENERATOR.words_in_password %>
 <p class="five">Your new password is:</p>
 <p class="one"><%= @password %></p>
-<p class="two">There are <%= @words_count %> words in the dictionary.</p>
-<p class="three">Thus, there are <%= @helper.number_to_human possible_phrases %> possible passphrases. <span class="four">In security parlance there are <%= possible_phrases.to_s(2).length %> bits of entropy.*</span></p>
+<p class="two">There are <%= GENERATOR.count_words %> words in the dictionary.</p>
+<p class="three">Thus, there are <%= HELPER.number_to_human possible_phrases %> possible passphrases. <span class="four">In security parlance there are <%= possible_phrases.to_s(2).length %> bits of entropy.*</span></p>
 <p class="two">So it's probably better than <a href="http://xkcd.com/936/">what you're currently using</a>.</p>
 <hr/>
 <p class="five">*These bits of entropy are based off of words in the dictionary, not characters in the string. If someone is brute forcing your password with just characters, it will be a lot harder for them.</p>
