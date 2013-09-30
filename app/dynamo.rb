@@ -4,7 +4,7 @@ require 'action_view'
 require_relative 'password_generator'
 
 GENERATOR = PasswordGenerator.new({ dictionary_path:   "words.txt",
-                                    max_word_length:   10,
+                                    max_word_length:   25,
                                     words_in_password: 4 })
 HELPER    = Object.new.extend(ActionView::Helpers::NumberHelper)
 

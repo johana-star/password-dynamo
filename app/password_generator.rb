@@ -1,9 +1,8 @@
 class PasswordGenerator
-  attr_accessor :dictionary_path, :max_word_length, :words_in_password
+  attr_accessor :dictionary_path, :words_in_password
 
   def initialize(args = {})
     @dictionary_path   = args[:dictionary_path]
-    @max_word_length   = args[:max_word_length]
     @words_in_password = args[:words_in_password]
   end
 
@@ -20,8 +19,6 @@ class PasswordGenerator
   end
 
   def dictionary
-    File.open(@dictionary_path) do |file|
-      file.select { |line| line.length <= max_word_length }
-    end
+    File.new dictionary_path
   end
 end
