@@ -7,7 +7,7 @@ class PasswordGenerator
   end
 
   def generate_password
-    clean_dictionary.shuffle.first(@words_in_password).join(" ")
+    clean_dictionary.shuffle.first(words_in_password).join(" ")
   end
 
   def count_words
